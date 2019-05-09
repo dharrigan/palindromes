@@ -1,5 +1,7 @@
 (ns palindrome.core-test
   (:require [clojure.test :as t]
+            [clojure.test.check.generators :as gen]
+            [clojure.string :as str]
             [palindrome.core :as p]))
 
 (def palindromes [
@@ -22,6 +24,15 @@
                   "refer"
                   ])
 
-(t/deftest test-palindromes
-  (for [x palindromes]
-    (t/is (= true (p/palindrome? x)))))
+(def gen-strings
+  (gen/sample (gen/fmap #(apply str %) (gen/vector gen/char-alpha 10))))
+
+(defn gen-palindromes
+  []
+  (for [x gen-strings]
+    (str/reverse (str x (str/reverse x)))))
+
+(t/deftest all-palindromes
+  (t/testing "palindromes"
+    (for [x (conj palindromes (gen-palindromes))]
+      (t/is (every? #(= true %) (p/palindrome? x))))))
