@@ -25,14 +25,17 @@
                   ])
 
 (def gen-strings
-  (gen/sample (gen/fmap #(apply str %) (gen/vector gen/char-alpha 10))))
+  (gen/sample (gen/fmap #(apply str %) (gen/vector gen/char-alpha 10)) 100))
 
 (defn gen-palindromes
   []
-  (for [x gen-strings]
-    (str/reverse (str x (str/reverse x)))))
+  (for [string gen-strings]
+    (str/reverse (str string (str/reverse string)))))
 
-(t/deftest all-palindromes
-  (t/testing "palindromes"
-    (for [x (conj palindromes (gen-palindromes))]
-      (t/is (every? #(= true %) (p/palindrome? x))))))
+(t/deftest generated-palindromes
+  (doseq [palindrome (gen-palindromes)]
+    (t/is #(= true %) (p/palindrome? palindrome))))
+
+(t/deftest english-palindromes
+  (doseq [palindrome palindromes]
+    (t/is #(= true %) (p/palindrome? palindrome))))
