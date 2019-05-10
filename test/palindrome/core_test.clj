@@ -21,8 +21,7 @@
                   "racecar"
                   "redder"
                   "madam"
-                  "refer"
-                  ])
+                  "refer"])
 
 (def gen-strings
   (gen/sample (gen/fmap #(apply str %) (gen/vector gen/char-alpha 10)) 100))
