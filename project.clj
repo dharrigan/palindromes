@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.9.0"]]
   :plugins [[io.taylorwood/lein-native-image "0.3.0"]]
   :native-image {:name "palindromes"
-                 :opts ["--report-unsupported-elements-at-runtime"]}
+                 :opts ["--report-unsupported-elements-at-runtime"
+                        "--initialize-at-build-time"]}
   :main ^:skip-aot palindrome.core
   :repl-options {:init-ns palindrome.core}
   :profiles {:dev {:global-vars {*warn-on-reflection* true
