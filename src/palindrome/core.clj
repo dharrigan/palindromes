@@ -1,4 +1,6 @@
-(ns palindrome.core (:require [clojure.string :as str]))
+(ns palindrome.core 
+  (:require [clojure.string :as str])
+  (:gen-class))
 
 (defn palindrome?
   [palindrome]
@@ -7,4 +9,4 @@
 
 (defn -main
   [& args]
-  (palindrome? (first args)))
+  (println (palindrome? (first args))))
